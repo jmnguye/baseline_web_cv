@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "nginx.fullname" . }}
+  labels:
+    {{- include "nginx.labels" . | nindent 4 }}  
+  namespace: {{ .Values.namespace }}
+  annotations:
+    metallb.universe.tf/allow-shared-ip: {{ .Values.service.allowSharedIp }}
+spec:
+  ports:
+    - protocol: TCP
+      port: {{ .Values.service.port }}
+      targetPort: {{ .Values.service.targetPort }}
+  selector:
+    {{- include "nginx.selectorLabels" . | nindent 4 }}
+  type: {{ .Values.service.type }}
+  loadBalancerIP: {{ .Values.service.loadBalancerIp }}

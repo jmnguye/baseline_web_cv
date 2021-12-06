@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "pgsql.fullname" . }}
+  labels:
+    {{- include "pgsql.labels" . | nindent 4 }}  
+  namespace: {{ .Values.namespace }}
+  annotations: 
+    metallb.universe.tf/allow-shared-ip: {{ .Values.service.allowSharedIp }}
+spec:
+  ports:
+  - port: {{ .Values.service.port }}
+    targetPort: {{ .Values.service.targetPort }}
+  selector:
+    {{- include "pgsql.selectorLabels" . | nindent 4 }}
+  type: {{ .Values.service.type }}
+  loadBalancerIP: {{ .Values.service.loadBalancerIp }}
