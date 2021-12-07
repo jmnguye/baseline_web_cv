@@ -1,9 +1,9 @@
 pipeline {
     agent any
     stages {
-        stage('Build image') {
+        stage('Stage 1') {
             steps {
-                sh 'docker build /var/jenkins_home/workspace/web_cv_pipeline/django -t test1'
+                sh 'echo Stage 1'
             }
         }
     }    
